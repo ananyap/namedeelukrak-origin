@@ -8,5 +8,5 @@ type NumberResponse struct {
 
 type NumberService interface {
 	GetNumbers() ([]NumberResponse, error)
-	GetNumber() (*NumberResponse, error)
+	GetNumber(id int) (*NumberResponse, error)
 }

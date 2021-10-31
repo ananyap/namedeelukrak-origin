@@ -10,5 +10,5 @@ type Number struct {
 
 type NumberRepository interface {
 	GetAll() ([]Number, error)
-	GetById() (*Number, error)
+	GetById(id int) (*Number, error)
 }

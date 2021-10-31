@@ -9,6 +9,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gofiber/fiber/v2"
 	"github.com/jmoiron/sqlx"
+	"github.com/sirupsen/logrus"
 )
 
 func main() {
@@ -21,9 +22,17 @@ func main() {
 	numberService := services.NewNumberService(numberRepo)
 	numberHandler := handlers.NewNumberHandler(numberService)
 
+	number, err := numberService.GetNumber(3)
+	if err != nil {
+		logrus.Error(err)
+	}
+
+	logrus.Println(number)
+
 	app := fiber.New()
 
 	app.Get("/numbers", numberHandler.GetNumbers)
+	app.Get("/number/:id", numberHandler.GetNumber)
 
 	log.Fatal(app.Listen(":3000"))
 

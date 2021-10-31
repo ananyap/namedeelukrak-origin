@@ -1,6 +1,8 @@
 package repositories
 
-import "github.com/jmoiron/sqlx"
+import (
+	"github.com/jmoiron/sqlx"
+)
 
 type NumberRepositoryDB struct {
 	db *sqlx.DB
@@ -19,6 +21,12 @@ func (r NumberRepositoryDB) GetAll() ([]Number, error) {
 	}
 	return numbers, nil
 }
-func (r NumberRepositoryDB) GetById() (*Number, error) {
-	return nil, nil
+func (r NumberRepositoryDB) GetById(id int) (*Number, error) {
+	number := Number{}
+	query := "SELECT pairnumberid, pairnumber, pairtype, pairpoint, miracledesc FROM numbers WHERE pairnumberid = ?"
+	err := r.db.Get(&number, query, id)
+	if err != nil {
+		return nil, err
+	}
+	return &number, nil
 }
